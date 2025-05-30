@@ -1,0 +1,6 @@
+---
+- name: Backup ZPA Connector config
+  copy:
+    src: /etc/zpa/connector.conf
+    dest: /ansible/backups/zscaler-zpa-connector.conf
+    remote_src: yes
