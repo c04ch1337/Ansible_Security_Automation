@@ -1,0 +1,53 @@
+---
+- name: Generate backup summary file
+  shell: |
+    echo "Backup completed at $(date)" > /ansible/backups/backup_summary.txt
+    ls -lh /ansible/backups/ >> /ansible/backups/backup_summary.txt
+  args:
+    executable: /bin/bash
+
+- name: Read backup summary
+  slurp:
+    src: /ansible/backups/backup_summary.txt
+  register: backup_summary
+
+- name: Send Slack notification
+  uri:
+    url: "{{ slack_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    body: |
+      {{
+        "text": "✅ Ansible Security Backup Completed at {{ ansible_date_time.iso8601 }}\n\n{{ backup_summary.content | b64decode }}\n\n📁 Backups: {{ backup_link }}"
+      }}
+    body_format: json
+  when: slack_webhook_url is defined
+
+- name: Send Discord notification
+  uri:
+    url: "{{ discord_webhook_url }}"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    body: |
+      {{
+        "content": "✅ Ansible Security Backup Completed at {{ ansible_date_time.iso8601 }}\n\n```{{ backup_summary.content | b64decode }}```\n\n📁 Backups: {{ backup_link }}"
+      }}
+    body_format: json
+  when: discord_webhook_url is defined
+
+- name: Send email notification
+  mail:
+    host: "{{ smtp_server | default('localhost') }}"
+    port: "{{ smtp_port | default(25) }}"
+    to: "{{ notify_email }}"
+    subject: "✅ Ansible Security Backup Complete"
+    body: |
+      Backup completed on {{ inventory_hostname }} at {{ ansible_date_time.iso8601 }}
+
+      Files Backed Up:
+      {{ backup_summary.content | b64decode }}
+
+      📁 Backups: {{ backup_link }}
+  when: notify_email is defined
