@@ -158,6 +158,14 @@ The following items are backed up:
 
 ---
 
+## 🆕 Cisco Umbrella + Rapid7 IDR Integration
+
+- New playbook: `rotate_and_update_idr.yml`
+- Automates key rotation and Rapid7 credential sync
+- See `roles/cisco_umbrella/README.md` for usage
+
+---
+
 ## 📌 Next Steps
 
 - [ ] Add encryption for backup files
