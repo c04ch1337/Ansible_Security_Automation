@@ -1,6 +1,37 @@
 ---
-- name: Backup Cisco Umbrella client config
-  copy:
-    src: /etc/umbrella/umbrella.conf
-    dest: /ansible/backups/cisco-umbrella.conf
-    remote_src: yes
+- name: Rotate Cisco Umbrella S3 Log Connector Keys
+  hosts: localhost
+  gather_facts: no
+  vars:
+    api_key: "{{ umbrella_api_key }}"
+    api_secret: "{{ umbrella_api_secret }}"
+    org_id: "{{ umbrella_org_id }}"
+    new_s3_key_name: "rotated-key-{{ lookup('pipe', 'date +%Y%m%d') }}"
+
+  tasks:
+    - name: Generate new Umbrella S3 Key
+      uri:
+        url: "https://api.umbrella.com/admin/v2/organizations/{{ org_id }}/s3-keys"
+        method: POST
+        headers:
+          Content-Type: "application/json"
+          Authorization: "Basic {{ api_key }}:{{ api_secret }}"
+        body_format: json
+        body:
+          name: "{{ new_s3_key_name }}"
+        return_content: yes
+        status_code: 201
+      register: new_key
+
+    - name: Output new S3 key info
+      debug:
+        var: new_key.json
+
+    - name: (Optional) Deactivate old Umbrella S3 Key
+      uri:
+        url: "https://api.umbrella.com/admin/v2/organizations/{{ org_id }}/s3-keys/{{ new_key.json.previousKeyId }}"
+        method: DELETE
+        headers:
+          Authorization: "Basic {{ api_key }}:{{ api_secret }}"
+        status_code: 204
+      when: new_key.json.previousKeyId is defined
