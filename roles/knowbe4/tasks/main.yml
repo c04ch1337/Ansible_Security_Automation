@@ -1,0 +1,14 @@
+---
+- name: Backup KnowBe4 user training data via API
+  uri:
+    url: "https://api.knowbe4.com/v1/users"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ knowbe4_api_key }}"
+    return_content: yes
+  register: knowbe4_user_data
+
+- name: Save KnowBe4 user data to file
+  copy:
+    content: "{{ knowbe4_user_data.content }}"
+    dest: /ansible/backups/knowbe4-users.json
