@@ -1,0 +1,6 @@
+---
+- name: Backup Rapid7 InsightVM agent config
+  copy:
+    src: /opt/rapid7/ir_agent/agent.properties
+    dest: /ansible/backups/rapid7-vm-agent.properties
+    remote_src: yes
