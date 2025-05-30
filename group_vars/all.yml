@@ -10,3 +10,6 @@ notify_email: "{{ lookup('env', 'NOTIFY_EMAIL') }}"
 smtp_server: "{{ lookup('env', 'SMTP_SERVER') }}"
 smtp_port: "{{ lookup('env', 'SMTP_PORT') }}"
 backup_link: '{{ lookup("env", "BACKUP_LINK") }}'
+umbrella_api_key: "{{ lookup('env', 'UMBRELLA_API_KEY') }}"
+umbrella_api_secret: "{{ lookup('env', 'UMBRELLA_API_SECRET') }}"
+umbrella_org_id: "{{ lookup('env', 'UMBRELLA_ORG_ID') }}"
