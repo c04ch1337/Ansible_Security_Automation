@@ -19,6 +19,21 @@ This guide provides step-by-step instructions to generate or retrieve API keys a
 
 ---
 
+## 🛡️ Cisco Umbrella and Rapid7 IDR
+
+🔗 [Umbrella Admin API Guide](https://docs.umbrella.com/umbrella-api/docs)
+
+1. Log in to your Umbrella Dashboard.
+2. Go to **Admin > API Keys**.
+3. Create or rotate your "Umbrella Reporting" key.
+4. Copy:
+   - `API Key`
+   - `API Secret`
+   - `Organization ID`
+5. Use with playbook: `rotate_and_update_idr.yml`
+
+---
+
 ## 🛡️ Cisco Meraki
 
 🔗 [Meraki Dashboard API Docs](https://developer.cisco.com/meraki/api-v1/)
