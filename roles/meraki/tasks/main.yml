@@ -1,0 +1,14 @@
+---
+- name: Backup Meraki appliance configuration (API example)
+  uri:
+    url: "https://api.meraki.com/api/v1/networks/YOUR_NETWORK_ID/devices"
+    method: GET
+    headers:
+      X-Cisco-Meraki-API-Key: "{{ meraki_api_key }}"
+    return_content: yes
+  register: meraki_devices
+
+- name: Save Meraki appliance configs to file
+  copy:
+    content: "{{ meraki_devices.content }}"
+    dest: /ansible/backups/meraki-devices.json
