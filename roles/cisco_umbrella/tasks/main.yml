@@ -1,0 +1,6 @@
+---
+- name: Backup Cisco Umbrella client config
+  copy:
+    src: /etc/umbrella/umbrella.conf
+    dest: /ansible/backups/cisco-umbrella.conf
+    remote_src: yes
