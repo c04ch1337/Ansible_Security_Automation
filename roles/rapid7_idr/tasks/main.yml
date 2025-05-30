@@ -1,0 +1,6 @@
+---
+- name: Backup syslog forwarding configuration
+  copy:
+    src: /etc/rsyslog.conf
+    dest: /ansible/backups/rapid7-idr-rsyslog.conf
+    remote_src: yes
