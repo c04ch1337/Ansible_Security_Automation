@@ -1,0 +1,6 @@
+---
+- name: Backup SentinelOne agent config (example)
+  copy:
+    src: /etc/sentinelone/agent.conf
+    dest: /ansible/backups/sentinelone-agent.conf
+    remote_src: yes
