@@ -1,0 +1,31 @@
+name: Scheduled Ansible Backups
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Run daily at 2am UTC
+  workflow_dispatch:
+
+jobs:
+  ansible-backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+      - name: Run Ansible Backup Playbook
+        env:
+          RAPID7_API_KEY: ${ secrets.RAPID7_API_KEY }
+          CLOUDFLARE_API_KEY: ${ secrets.CLOUDFLARE_API_KEY }
+          MERAKI_API_KEY: ${ secrets.MERAKI_API_KEY }
+        run: |
+          ansible-playbook site.yml -i inventory
