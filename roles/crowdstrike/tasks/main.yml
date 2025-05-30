@@ -1,0 +1,6 @@
+---
+- name: Backup CrowdStrike sensor state (example)
+  copy:
+    src: /opt/CrowdStrike/falcon-sensor.conf
+    dest: /ansible/backups/crowdstrike-falcon-sensor.conf
+    remote_src: yes
