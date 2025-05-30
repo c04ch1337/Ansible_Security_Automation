@@ -11,3 +11,6 @@
     - zscaler_zpa
     - zscaler_zia
     - knowbe4
+    - rapid7_nexpose
+    - cloudflare
+    - meraki
