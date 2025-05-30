@@ -1,17 +1,13 @@
 #!/bin/bash
 
-check_command() {
-  if ! command -v $1 &> /dev/null
-  then
-    echo "❌ $1 is not installed. Please install it first."
-    exit 1
-  else
-    echo "✅ $1 is installed."
-  fi
-}
+# Load environment variables from .env file
 
-echo "🔍 Checking dependencies..."
-check_command docker
-check_command docker-compose
+set -a
+source .env
+set +a
 
-echo "✅ All dependencies are installed."
+# Run the Ansible playbook with loaded vars
+docker run --rm -v $(pwd):/ansible \
+  -e RAPID7_API_KEY -e CLOUDFLARE_API_KEY -e MERAKI_API_KEY \
+  ansible-local \
+  ansible-playbook site.yml -i inventory
