@@ -1,0 +1,6 @@
+---
+- name: Backup ZIA log forwarding configuration
+  copy:
+    src: /etc/rsyslog.conf
+    dest: /ansible/backups/zscaler-zia-rsyslog.conf
+    remote_src: yes
