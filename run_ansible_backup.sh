@@ -1,17 +1,13 @@
 #!/bin/bash
 
-check_command() {
-  if ! command -v $1 &> /dev/null
-  then
-    echo "❌ $1 is not installed. Please install it first."
-    exit 1
-  else
-    echo "✅ $1 is installed."
-  fi
-}
+# Run this with `crontab -e` to schedule it manually
 
-echo "🔍 Checking dependencies..."
-check_command docker
-check_command docker-compose
+# Example Cron (run daily at 1am):
+# 0 1 * * * /path/to/run_ansible_backup.sh
 
-echo "✅ All dependencies are installed."
+cd /path/to/ansible_docker
+export RAPID7_API_KEY="your_key"
+export CLOUDFLARE_API_KEY="your_key"
+export MERAKI_API_KEY="your_key"
+
+docker run --rm -v $(pwd):/ansible   -e RAPID7_API_KEY -e CLOUDFLARE_API_KEY -e MERAKI_API_KEY   ansible-local   ansible-playbook site.yml -i inventory
