@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    - crowdstrike
+    - sentinelone
+    - cisco_umbrella
+    - rapid7_vm
+    - rapid7_idr
+    - rapid7_threat_command
+    - zscaler_zpa
+    - zscaler_zia
+    - knowbe4

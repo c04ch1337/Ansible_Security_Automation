@@ -1,8 +1,4 @@
-### install_check.sh ###
-
 #!/bin/bash
-
-# This script checks for Docker and Docker Compose installation
 
 check_command() {
   if ! command -v $1 &> /dev/null
