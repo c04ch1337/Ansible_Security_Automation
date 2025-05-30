@@ -1,0 +1,15 @@
+---
+- name: Backup Nexpose scan config (API example)
+  uri:
+    url: "https://nexpose.example.com/api/3/sites"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ rapid7_api_key }}"
+    return_content: yes
+    validate_certs: no
+  register: nexpose_sites
+
+- name: Save Nexpose site data to file
+  copy:
+    content: "{{ nexpose_sites.content }}"
+    dest: /ansible/backups/rapid7-nexpose-sites.json
