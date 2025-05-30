@@ -1,0 +1,14 @@
+---
+- name: Backup Threat Command alerts (via API)
+  uri:
+    url: "https://api.rapid7.com/threatcommand/v1/alerts"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ rapid7_api_key }}"
+    return_content: yes
+  register: threat_command_alerts
+
+- name: Save Threat Command alerts to file
+  copy:
+    content: "{{ threat_command_alerts.content }}"
+    dest: /ansible/backups/rapid7-threat-command-alerts.json
