@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi9/python-39
 
-USER root  # ✅ ensure you're root before installing anything
+USER root
 
 RUN dnf install -y \
     ansible-core \
